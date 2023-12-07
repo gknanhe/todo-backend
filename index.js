@@ -11,8 +11,11 @@ const PORT = 8000;
 require("dotenv").config();
 
 const app = express();
-app.use(cors());
-
+app.use(
+  cors({
+    origin: "https://creative-rugelach-7bdb51.netlify.app/",
+  })
+);
 connectMongoose();
 
 const bodyParser = require("body-parser");
