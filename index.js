@@ -13,7 +13,9 @@ require("dotenv").config();
 const app = express();
 app.use(
   cors({
-    origin: "https://creative-rugelach-7bdb51.netlify.app/",
+    origin: "https://zippy-florentine-e4aede.netlify.app", // Replace with your frontend URL
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true, // Enable credentials (if your frontend makes requests with credentials)
   })
 );
 connectMongoose();
