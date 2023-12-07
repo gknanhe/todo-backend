@@ -10,6 +10,12 @@ router.post("/delete-todo", todosController.deleteTodo);
 router.post("/edit-todo", todosController.editTodo);
 router.post("/toggle-todo", todosController.markTodo);
 
-router.get("/get-todos", todosController.fetchTodo);
+router.get("/get-todos/:userId", todosController.fetchTodo);
+router.get(
+  "/search-todo/:userId/:searchText",
+  todosController.fetchTodoBySearch
+);
+
+router.get("/filter-todo/:userId/:filter", todosController.fetchTodoByFilter);
 
 module.exports = router;

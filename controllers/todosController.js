@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const Todo = require("../models/todo");
+const { default: mongoose } = require("mongoose");
 
 module.exports.createTodo = async (req, res) => {
   try {
@@ -35,8 +36,9 @@ module.exports.createTodo = async (req, res) => {
 module.exports.fetchTodo = async (req, res) => {
   console.log("getting here");
   try {
+    console.log(req.params.userId);
     // Get the user ID from the request (you need to have it in your request, e.g., from the authentication middleware)
-    const userId = req.query.userId; // Adjust based on your authentication setup
+    const userId = req.params.userId; // Adjust based on your authentication setup
 
     // Find the user by ID
     // const user = await User.findById(userId)
@@ -176,5 +178,103 @@ module.exports.markTodo = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// module.exports.fetchTodoBySearch = async (req, res) => {
+//   console.log("inside serch contro");
+//   try {
+//     // Get the user ID from the request (you need to have it in your request, e.g., from the authentication middleware)
+//     const userId = req.params.userId; // Adjust based on your authentication setup
+//     const titleQuery = req.params.searchText;
+//     console.log(userId, titleQuery);
+//     // Find the user by ID
+//     // const user = await User.findById(userId).populate({
+//     //   path: "todos",
+//     //   match: titleQuery ? { task: { $regex: titleQuery, $options: "i" } } : {},
+//     // });
+
+//     // const todos = await Todo.find({
+//     //   $and: [
+//     //     {
+//     //       $or: [
+//     //         // { task: { $regex: titleQuery, $options: "i" } },
+//     //         { discription: { $regex: titleQuery, $options: "i" } },
+//     //       ],
+//     //     },
+//     //     {
+//     //       $or: [{ user: userId }, { user: userId }],
+//     //     },
+//     //   ],
+//     // });
+
+//     // const todos = await Todo.find({
+//     //   // user: userId,
+//     //   $or: [
+//     //     { title: { $regex: new RegExp(titleQuery, "i") } },
+//     //     { description: { $regex: new RegExp(titleQuery, "i") } },
+//     //   ],
+//     // });
+
+//     const todos = await Todo.find({
+//       // user: userId,
+//       task: { $regex: titleQuery, $options: "i" },
+//     });
+
+//     console.log("todod ", todos);
+//     res.status(200).json({ todos });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+
+module.exports.fetchTodoBySearch = async (req, res) => {
+  console.log("inside search control");
+  try {
+    // Get the user ID from the request (you need to have it in your request, e.g., from the authentication middleware)
+    const userId = req.params.userId; // Adjust based on your authentication setup
+    const titleQuery = req.params.searchText;
+    console.log(userId, titleQuery);
+
+    // Find todos based on user ID and task containing the search text (case-insensitive)
+    const todos = await Todo.find({
+      user: userId,
+      task: { $regex: new RegExp(titleQuery, "i") },
+    });
+
+    console.log("todos ", todos);
+    res.status(200).json({ todos });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+module.exports.fetchTodoByFilter = async (req, res) => {
+  console.log("inside search control");
+  try {
+    // Get the user ID from the request (you need to have it in your request, e.g., from the authentication middleware)
+    const userId = req.params.userId; // Adjust based on your authentication setup
+    const filterText = req.params.filter;
+    console.log(userId, filterText);
+
+    let filter = {};
+    if (filterText === "Done") {
+      filter.completed = true;
+    } else if (filterText === "NotDone") {
+      filter.completed = false;
+    }
+
+    const todos = await Todo.find({
+      user: userId,
+      ...filter,
+    });
+
+    console.log("todos ", todos);
+    res.status(200).json({ todos });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
