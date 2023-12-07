@@ -11,9 +11,9 @@ const PORT = 8000;
 require("dotenv").config();
 
 const app = express();
+app.use(cors());
 
 connectMongoose();
-app.use(cors());
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
