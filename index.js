@@ -11,23 +11,25 @@ const PORT = 8000;
 require("dotenv").config();
 
 const app = express();
-app.use((req, res, next) => {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://zippy-florentine-e4aede.netlify.app"
-  );
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header(
+//     "Access-Control-Allow-Origin",
+//     "https://zippy-florentine-e4aede.netlify.app"
+//   );
+//   res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
+//   res.header("Access-Control-Allow-Credentials", "true");
+//   next();
+// });
 
-app.use(
-  cors({
-    origin: "https://zippy-florentine-e4aede.netlify.app", // Replace with your frontend URL
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true, // Enable credentials (if your frontend makes requests with credentials)
-  })
-);
+// app.use(
+//   cors({
+//     origin: "https://zippy-florentine-e4aede.netlify.app", // Replace with your frontend URL
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     credentials: true, // Enable credentials (if your frontend makes requests with credentials)
+//   })
+// );
+
+app.use(cors());
 connectMongoose();
 
 const bodyParser = require("body-parser");
