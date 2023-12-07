@@ -13,14 +13,13 @@
 // })
 
 // module.exports = db;
+require("dotenv").config();
 
 const mongoose = require("mongoose");
 
 exports.connectMongoose = () => {
   mongoose
-    .connect(
-      "mongodb+srv://gknanhejd:9373865763@cluster0.es9kkzp.mongodb.net/?retryWrites=true&w=majority"
-    )
+    .connect(`${process.env.AUTHENTICATION_DB}`)
     .then((e) => console.log(`Connected to mongoDB: ${e.connection.host}`))
     .catch((e) => console.log(e));
 };

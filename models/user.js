@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-    },
     email: {
       type: String,
       unique: true,
@@ -15,10 +11,19 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
+    todos: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Todo",
+      },
+    ],
   },
   {
     timestamps: true,
   }
 );
 
-exports.User = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;
