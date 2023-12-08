@@ -35,7 +35,7 @@ app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
     // "https://zippy-florentine-e4aede.netlify.app",
-    "*"
+    "http://localhost:5174/"
   );
   res.header(
     "Access-Control-Allow-Headers",
