@@ -65,6 +65,11 @@ app.use(passport.initialize());
 // app.use(passport.setAuthenticatedUser);
 
 app.use("/api", require("./routes/index"));
+app.get("/", async (req, res) => {
+  res.status(200).json({
+    message: "Hello from CharL.I!",
+  });
+});
 
 app.listen(PORT, (err) => {
   if (err) {
