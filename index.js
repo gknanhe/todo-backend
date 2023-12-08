@@ -30,6 +30,18 @@ const app = express();
 // );
 
 app.use(cors());
+// Add Access Control Allow Origin headers
+app.use((req, res, next) => {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://zippy-florentine-e4aede.netlify.app"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 connectMongoose();
 
 const bodyParser = require("body-parser");
